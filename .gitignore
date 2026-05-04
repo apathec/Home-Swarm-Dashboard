@@ -7,6 +7,9 @@ build/
 *.map
 *.eep
 
+# Exception: keep firmware binaries for the web installer
+!firmware/*.bin
+
 # Arduino IDE 2.x
 .vscode/
 .theia/
