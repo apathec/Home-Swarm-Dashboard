@@ -1,4 +1,4 @@
-# Home-Miner-Swarm
+# Home-Swarm-Dashboard
 
 ### Quick-glance home mining status for CYD devices
 
@@ -21,7 +21,7 @@ Built to give home miners a simple, always-on display without needing a full das
 * Live hashrate monitoring
 * Temperature and system stats
 * Uptime and performance tracking
-* Simple, clean touch-based interface
+* Web Based Interface
 
 ---
 
