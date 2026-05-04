@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)file:///C:/Users/almgh/Downloads/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Home Swarm Dashboard</title>
+  <meta name="description" content="A self-contained ESP32 dashboard for monitoring your Bitcoin home-mining swarm. Bitaxe, NerdAxe, Avalon Nano 3s — no cloud, no subscriptions.">
+  <meta property="og:title" content="Home Swarm Dashboard">
+  <meta property="og:description" content="ESP32 dashboard for Bitcoin home miners. Bitaxe, NerdAxe, Avalon Nano 3s.">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111;
+      --panel-2: #161616;
+      --border: #222;
+      --accent: #04f3ff;
+      --text: #e6e6e6;
+      --muted: #888;
+      --green: #07e000;
+      --orange: #fca000;
+      --magenta: #f81ff8;
+      --yellow: #ffe000;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--accent);
+    }
+    a:hover { border-bottom-style: solid; }
+
+    /* HERO */
+    .hero {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 24px 40px;
+      text-align: center;
+    }
+    .hero h1 {
+      color: var(--accent);
+      font-size: 56px;
+      margin: 16px 0 4px;
+      letter-spacing: 1px;
+      line-height: 1.1;
+    }
+    .hero .tagline {
+      color: var(--muted);
+      letter-spacing: 4px;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero .lead {
+      max-width: 640px;
+      margin: 0 auto 32px;
+      color: #ccc;
+      font-size: 16px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 32px 0;
+    }
+    .cta {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 1px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .cta-primary {
+      background: var(--accent);
+      color: #000;
+      border-bottom: none;
+    }
+    .cta-primary:hover { background: #00d8e0; }
+    .cta-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    .cta-secondary:hover { background: rgba(4, 243, 255, 0.1); border-bottom: 2px solid var(--accent); }
+
+    /* PREVIEW PANEL - mocked dashboard look */
+    .preview {
+      max-width: 720px;
+      margin: 40px auto 0;
+      background: var(--panel);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 14px;
+    }
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 8px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+    }
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .preview-table th, .preview-table td {
+      text-align: left;
+      padding: 4px 8px;
+    }
+    .preview-table th {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: normal;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-table .total td {
+      border-top: 1px solid var(--border);
+      color: var(--accent);
+      padding-top: 8px;
+    }
+    .preview-side {
+      background: var(--panel-2);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 13px;
+    }
+    .preview-side h4 {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin: 0 0 8px;
+    }
+    .preview-side .label {
+      color: var(--magenta);
+      font-size: 11px;
+    }
+    .preview-side .value {
+      color: var(--text);
+      margin-bottom: 8px;
+      word-break: break-all;
+    }
+
+    /* FEATURES */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    .section h2 {
+      color: var(--accent);
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .section h3 {
+      text-align: center;
+      font-size: 28px;
+      margin: 0 0 40px;
+      color: var(--text);
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .feature h4 {
+      color: var(--accent);
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+    .feature p {
+      color: #bbb;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* SUPPORTED MINERS */
+    .miners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .miner {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      border-left: 4px solid var(--accent);
+    }
+    .miner.bitaxe { border-left-color: var(--orange); }
+    .miner.bitaxe h4 { color: var(--orange); }
+    .miner.nerdaxe { border-left-color: var(--magenta); }
+    .miner.nerdaxe h4 { color: var(--magenta); }
+    .miner.avalon { border-left-color: var(--green); }
+    .miner.avalon h4 { color: var(--green); }
+    .miner h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .miner p {
+      color: #bbb;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      counter-reset: step;
+    }
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      counter-increment: step;
+      position: relative;
+    }
+    .step::before {
+      content: counter(step);
+      position: absolute;
+      top: -16px;
+      left: 20px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      background: var(--accent);
+      color: #000;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step h4 {
+      margin: 4px 0 8px;
+      color: var(--text);
+      font-size: 15px;
+    }
+    .step p {
+      color: #bbb;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 60px;
+    }
+    .footer a {
+      margin: 0 8px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 38px; }
+      .preview-grid { grid-template-columns: 1fr; }
+      .preview-table { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Swarm Dashboard</h1>
+    <div class="tagline">Bitcoin Home-Mining Swarm Monitor · ESP32</div>
+
+    <p class="lead">
+      A self-contained, network-connected dashboard for monitoring your home Bitcoin miners on a 4" ESP32 touchscreen. Polls Bitaxe, NerdAxe, and Avalon Nano 3s on your LAN — and displays live hashrate, power, temperature, best difficulty, and uptime.
+    </p>
+
+    <p class="lead" style="color: var(--muted); font-size: 14px;">
+      No subscriptions. No cloud. No telemetry.<br>
+      Everything runs on the ESP32 you already paid for.
+    </p>
+
+    <div class="cta-row">
+      <a href="file:///C:/Users/almgh/Downloads/install/" class="cta cta-primary">⚡ Install in 60 Seconds</a>
+      <a href="https://github.com/Apathec/Home-Swarm-Dashboard" class="cta cta-secondary">View on GitHub</a>
+    </div>
+
+    <!-- Mock dashboard preview -->
+    <div class="preview">
+      <div class="preview-header">
+        <span>▢ Swarm Dashboard</span>
+        <span style="font-size: 14px;">📶 192.168.1.108</span>
+      </div>
+      <div class="preview-grid">
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th>Device</th>
+              <th>TH/s</th>
+              <th>PWR</th>
+              <th>Temp</th>
+              <th>Up</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color: var(--orange);">Bitaxe1</td>
+              <td>1.62</td>
+              <td>27W</td>
+              <td style="color: var(--green);">58C</td>
+              <td>6d</td>
+            </tr>
+            <tr>
+              <td style="color: var(--orange);">Bitaxe2</td>
+              <td>1.54</td>
+              <td>24W</td>
+              <td style="color: var(--green);">50C</td>
+              <td>6d</td>
+            </tr>
+            <tr>
+              <td style="color: var(--magenta);">NerdAxe1</td>
+              <td>4.85</td>
+              <td>76W</td>
+              <td style="color: var(--yellow);">62C</td>
+              <td>3d</td>
+            </tr>
+            <tr>
+              <td style="color: var(--green);">Nano3s</td>
+              <td>5.04</td>
+              <td>94W</td>
+              <td style="color: var(--yellow);">66C</td>
+              <td>5d</td>
+            </tr>
+            <tr class="total">
+              <td>TOTAL</td>
+              <td>13.05</td>
+              <td colspan="3">221W</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="preview-side">
+          <h4>POOL INFO</h4>
+          <div class="label">Pool URL:</div>
+          <div class="value">fenixpool.com:4444</div>
+          <div class="label">Hashrate:</div>
+          <div class="value">13.05 TH/s</div>
+          <div class="label" style="color: var(--green);">Accepted:</div>
+          <div class="value">202,443 (99.5%)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <h2>What it does</h2>
+    <h3>Everything you need, nothing you don't</h3>
+    <div class="features">
+      <div class="feature">
+        <h4>⚡ Live Wave Polling</h4>
+        <p>Miners are polled one at a time with a visible "scanning" highlight. Watch the data refresh in real time.</p>
+      </div>
+      <div class="feature">
+        <h4>🌡️ Color-Coded Health</h4>
+        <p>Temperatures turn yellow at 60°C and red at 70°C. Spot a hot miner across the room.</p>
+      </div>
+      <div class="feature">
+        <h4>📊 Pool Aggregation</h4>
+        <p>Combined hashrate, accepted/rejected counts, and most-common pool URL across your whole swarm.</p>
+      </div>
+      <div class="feature">
+        <h4>🌐 Built-in Web UI</h4>
+        <p>Add miners, change polling intervals, factory reset — all from your phone or computer.</p>
+      </div>
+      <div class="feature">
+        <h4>📡 WiFi Captive Portal</h4>
+        <p>First-boot setup. No hardcoded credentials, no recompiling.</p>
+      </div>
+      <div class="feature">
+        <h4>💾 Survives Reboots</h4>
+        <p>Miner list and settings are persisted to flash storage. Power-cycle without losing config.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORTED -->
+  <section class="section">
+    <h2>Supported Miners</h2>
+    <h3>Mix and match your swarm</h3>
+    <div class="miners-grid">
+      <div class="miner bitaxe">
+        <h4>Bitaxe</h4>
+        <p>Any model running AxeOS firmware. Polls hashrate, power, temp, difficulty, shares, uptime over HTTP.</p>
+      </div>
+      <div class="miner nerdaxe">
+        <h4>NerdAxe</h4>
+        <p>Multi-chip Bitaxe-derivatives. Same AxeOS API, same data fields. Plug-and-play.</p>
+      </div>
+      <div class="miner avalon">
+        <h4>Avalon Nano 3s</h4>
+        <p>Direct CGMiner TCP connection. No cloud relay. Reads chip temp, real wattage, best difficulty.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <h2>Setup</h2>
+    <h3>From box to mining swarm in 5 steps</h3>
+    <div class="steps">
+      <div class="step">
+        <h4>Plug In</h4>
+        <p>Connect your HOSYOND 4" ESP32 board to any computer via USB-C.</p>
+      </div>
+      <div class="step">
+        <h4>Click Install</h4>
+        <p>Open the install page in Chrome, click the install button, pick your USB device.</p>
+      </div>
+      <div class="step">
+        <h4>Connect WiFi</h4>
+        <p>Board boots into a captive portal. Pick your home network and save.</p>
+      </div>
+      <div class="step">
+        <h4>Add Miners</h4>
+        <p>Browse to the dashboard's IP. Add miner name, IP, and type. Done.</p>
+      </div>
+      <div class="step">
+        <h4>Watch Your Swarm</h4>
+        <p>Live hashrate, temperatures, share counts. Sit back and admire.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 50px;">
+      <a href="file:///C:/Users/almgh/Downloads/install/" class="cta cta-primary">⚡ Install Swarm Dashboard</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>
+      <a href="https://github.com/Apathec/Home-Swarm-Dashboard">Source on GitHub</a>
+      ·
+      <a href="file:///C:/Users/almgh/Downloads/install/">Install Page</a>
+      ·
+      <a href="https://github.com/Apathec/Home-Swarm-Dashboard/issues">Report a Bug</a>
+    </p>
+    <p style="margin-top: 16px;">
+      Built by <a href="https://github.com/Apathec">@Apathec</a> · Open source under <a href="https://github.com/Apathec/Home-Swarm-Dashboard/blob/main/LICENSE">GPLv3</a>
+    </p>
+  </div>
+
+
+
+</body></html>
