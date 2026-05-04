@@ -1,0 +1,18 @@
+{
+  "name": "Home Swarm Dashboard",
+  "version": "1.3.0",
+  "home_assistant_domain": "swarm_dashboard",
+  "funding_url": "https://github.com/Apathec/Home-Swarm-Dashboard",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../firmware/SwarmDashboard.ino.bootloader.bin", "offset": 4096 },
+        { "path": "../firmware/SwarmDashboard.ino.partitions.bin", "offset": 32768 },
+        { "path": "../firmware/boot_app0.bin",                     "offset": 57344 },
+        { "path": "../firmware/SwarmDashboard.ino.bin",            "offset": 65536 }
+      ]
+    }
+  ]
+}
