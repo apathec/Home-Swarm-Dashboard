@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+  <rect width="800" height="240" rx="12" fill="#0a0a0a"/>
+  <rect x="2" y="2" width="796" height="236" rx="10" fill="none" stroke="#04f3ff" stroke-width="2" opacity="0.55"/>
+
+  <g transform="translate(36,52)" stroke="#04f3ff" fill="none" stroke-width="3">
+    <rect x="0" y="0" width="56" height="56" rx="6"/>
+    <rect x="14" y="14" width="28" height="28" rx="3"/>
+    <line x1="-8" y1="14" x2="0" y2="14"/>
+    <line x1="-8" y1="28" x2="0" y2="28"/>
+    <line x1="-8" y1="42" x2="0" y2="42"/>
+    <line x1="56" y1="14" x2="64" y2="14"/>
+    <line x1="56" y1="28" x2="64" y2="28"/>
+    <line x1="56" y1="42" x2="64" y2="42"/>
+    <line x1="14" y1="-8" x2="14" y2="0"/>
+    <line x1="28" y1="-8" x2="28" y2="0"/>
+    <line x1="42" y1="-8" x2="42" y2="0"/>
+    <line x1="14" y1="56" x2="14" y2="64"/>
+    <line x1="28" y1="56" x2="28" y2="64"/>
+    <line x1="42" y1="56" x2="42" y2="64"/>
+  </g>
+
+  <text x="120" y="92" fill="#04f3ff" font-size="46" font-weight="700" letter-spacing="1">Swarm Dashboard</text>
+  <text x="122" y="120" fill="#888" font-size="14" letter-spacing="3">BITCOIN HOME-MINING SWARM MONITOR &#183; ESP32</text>
+
+  <g transform="translate(40,160)" font-size="14">
+    <text fill="#7BEF7B" x="0"   y="0">DEVICE</text>
+    <text fill="#7BEF7B" x="100" y="0">TH/S</text>
+    <text fill="#7BEF7B" x="170" y="0">PWR</text>
+    <text fill="#7BEF7B" x="230" y="0">TEMP</text>
+    <text fill="#7BEF7B" x="300" y="0">UP</text>
+
+    <text fill="#FCA000" x="0"   y="22">Bitaxe1</text>
+    <text fill="#FFE000" x="100" y="22">1.62</text>
+    <text fill="#FFE000" x="170" y="22">27W</text>
+    <text fill="#07E000" x="230" y="22">58C</text>
+    <text fill="#FFFFFF" x="300" y="22">6d</text>
+
+    <text fill="#F81FF8" x="380" y="22">NerdAxe1</text>
+    <text fill="#FFE000" x="490" y="22">4.85</text>
+    <text fill="#FFE000" x="555" y="22">76W</text>
+    <text fill="#FFE000" x="615" y="22">62C</text>
+    <text fill="#FFFFFF" x="685" y="22">3d</text>
+
+    <text fill="#07E000" x="0"   y="44">Avalon1</text>
+    <text fill="#FFE000" x="100" y="44">5.04</text>
+    <text fill="#FFE000" x="170" y="44">94W</text>
+    <text fill="#FFE000" x="230" y="44">66C</text>
+    <text fill="#FFFFFF" x="300" y="44">5d</text>
+
+    <text fill="#04f3ff" x="380" y="44">TOTAL</text>
+    <text fill="#04f3ff" x="490" y="44">11.51 TH/S</text>
+  </g>
+</svg>

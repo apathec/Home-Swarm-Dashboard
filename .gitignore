@@ -1,0 +1,30 @@
+# Arduino IDE build output
+build/
+.build/
+*.bin
+*.hex
+*.elf
+*.map
+*.eep
+
+# Arduino IDE 2.x
+.vscode/
+.theia/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+
+# Local user-specific files (don't commit personal config)
+*.local.h
+config.local.h
+secrets.h
+
+# Logs / tmp
+*.log
+tmp/
