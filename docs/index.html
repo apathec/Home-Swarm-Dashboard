@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<!-- saved from url=(0043)file:///C:/Users/almgh/Downloads/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Home Swarm Dashboard</title>
-  <meta name="description" content="A self-contained ESP32 dashboard for monitoring your Bitcoin home-mining swarm. Bitaxe, NerdAxe, Avalon Nano 3s — no cloud, no subscriptions.">
-  <meta property="og:title" content="Home Swarm Dashboard">
-  <meta property="og:description" content="ESP32 dashboard for Bitcoin home miners. Bitaxe, NerdAxe, Avalon Nano 3s.">
-  <meta property="og:type" content="website">
-
+  <meta name="description" content="A self-contained ESP32 dashboard for monitoring your Bitcoin home-mining swarm. Bitaxe, NerdAxe, Avalon Nano 3s — no cloud, no subscriptions."/>
+  <meta property="og:title" content="Home Swarm Dashboard"/>
+  <meta property="og:description" content="ESP32 dashboard for Bitcoin home miners. Bitaxe, NerdAxe, Avalon Nano 3s."/>
+  <meta property="og:type" content="website"/>
+ 
   <style>
     :root {
       --bg: #0a0a0a;
@@ -38,7 +38,7 @@
       border-bottom: 1px dotted var(--accent);
     }
     a:hover { border-bottom-style: solid; }
-
+ 
     /* HERO */
     .hero {
       max-width: 960px;
@@ -66,7 +66,7 @@
       color: #ccc;
       font-size: 16px;
     }
-
+ 
     .cta-row {
       display: flex;
       gap: 16px;
@@ -97,7 +97,7 @@
       border: 2px solid var(--accent);
     }
     .cta-secondary:hover { background: rgba(4, 243, 255, 0.1); border-bottom: 2px solid var(--accent); }
-
+ 
     /* PREVIEW PANEL - mocked dashboard look */
     .preview {
       max-width: 720px;
@@ -166,7 +166,7 @@
       margin-bottom: 8px;
       word-break: break-all;
     }
-
+ 
     /* FEATURES */
     .section {
       max-width: 960px;
@@ -209,7 +209,7 @@
       font-size: 14px;
       margin: 0;
     }
-
+ 
     /* SUPPORTED MINERS */
     .miners-grid {
       display: grid;
@@ -238,7 +238,7 @@
       font-size: 13px;
       margin: 0;
     }
-
+ 
     /* HOW IT WORKS */
     .steps {
       display: grid;
@@ -279,7 +279,7 @@
       font-size: 13px;
       margin: 0;
     }
-
+ 
     /* FOOTER */
     .footer {
       border-top: 1px solid var(--border);
@@ -292,7 +292,7 @@
     .footer a {
       margin: 0 8px;
     }
-
+ 
     /* RESPONSIVE */
     @media (max-width: 600px) {
       .hero h1 { font-size: 38px; }
@@ -302,26 +302,26 @@
   </style>
 </head>
 <body>
-
+ 
   <!-- HERO -->
   <section class="hero">
     <h1>Swarm Dashboard</h1>
-    <div class="tagline">Bitcoin Home-Mining Swarm Monitor · ESP32</div>
-
+    <div class="tagline">Bitcoin Home-Mining Swarm Monitor &middot; ESP32</div>
+ 
     <p class="lead">
-      A self-contained, network-connected dashboard for monitoring your home Bitcoin miners on a 4" ESP32 touchscreen. Polls Bitaxe, NerdAxe, and Avalon Nano 3s on your LAN — and displays live hashrate, power, temperature, best difficulty, and uptime.
+      A self-contained, network-connected dashboard for monitoring your home Bitcoin miners on a 4&quot; ESP32 touchscreen. Polls Bitaxe, NerdAxe, and Avalon Nano 3s on your LAN — and displays live hashrate, power, temperature, best difficulty, and uptime.
     </p>
-
+ 
     <p class="lead" style="color: var(--muted); font-size: 14px;">
       No subscriptions. No cloud. No telemetry.<br>
       Everything runs on the ESP32 you already paid for.
     </p>
-
+ 
     <div class="cta-row">
-      <a href="file:///C:/Users/almgh/Downloads/install/" class="cta cta-primary">⚡ Install in 60 Seconds</a>
+      <a href="install/" class="cta cta-primary">⚡ Install in 60 Seconds</a>
       <a href="https://github.com/Apathec/Home-Swarm-Dashboard" class="cta cta-secondary">View on GitHub</a>
     </div>
-
+ 
     <!-- Mock dashboard preview -->
     <div class="preview">
       <div class="preview-header">
@@ -387,7 +387,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- FEATURES -->
   <section class="section">
     <h2>What it does</h2>
@@ -395,7 +395,7 @@
     <div class="features">
       <div class="feature">
         <h4>⚡ Live Wave Polling</h4>
-        <p>Miners are polled one at a time with a visible "scanning" highlight. Watch the data refresh in real time.</p>
+        <p>Miners are polled one at a time with a visible &quot;scanning&quot; highlight. Watch the data refresh in real time.</p>
       </div>
       <div class="feature">
         <h4>🌡️ Color-Coded Health</h4>
@@ -419,7 +419,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- SUPPORTED -->
   <section class="section">
     <h2>Supported Miners</h2>
@@ -439,7 +439,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- HOW IT WORKS -->
   <section class="section">
     <h2>Setup</h2>
@@ -466,18 +466,18 @@
         <p>Live hashrate, temperatures, share counts. Sit back and admire.</p>
       </div>
     </div>
-
+ 
     <div style="text-align: center; margin-top: 50px;">
-      <a href="file:///C:/Users/almgh/Downloads/install/" class="cta cta-primary">⚡ Install Swarm Dashboard</a>
+      <a href="install/" class="cta cta-primary">⚡ Install Swarm Dashboard</a>
     </div>
   </section>
-
+ 
   <!-- FOOTER -->
   <div class="footer">
     <p>
       <a href="https://github.com/Apathec/Home-Swarm-Dashboard">Source on GitHub</a>
       ·
-      <a href="file:///C:/Users/almgh/Downloads/install/">Install Page</a>
+      <a href="install/">Install Page</a>
       ·
       <a href="https://github.com/Apathec/Home-Swarm-Dashboard/issues">Report a Bug</a>
     </p>
@@ -485,7 +485,6 @@
       Built by <a href="https://github.com/Apathec">@Apathec</a> · Open source under <a href="https://github.com/Apathec/Home-Swarm-Dashboard/blob/main/LICENSE">GPLv3</a>
     </p>
   </div>
-
-
-
-</body></html>
+ 
+</body>
+</html>
