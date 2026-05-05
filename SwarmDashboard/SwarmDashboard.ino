@@ -150,6 +150,10 @@ unsigned long lastPoll      = 0;
 unsigned long bootMillis    = 0;
 volatile bool pollRequested = false;
 
+// Toggles each completed poll wave on big screens.
+// false = show UP column with uptime, true = show J/Ts column with efficiency.
+bool showJTs = false;
+
 // ----- Layout (480x320 landscape) -----
 const int SCREEN_W = 480;
 const int SCREEN_H = 320;
@@ -412,6 +416,16 @@ void pollAllMiners() {
   sys.esp32Temp = getEspTemp();
   drawSysPanel();
   drawHeaderInfo();
+
+  // Flip UP <-> J/Ts column for next wave, then redraw the
+  // header label and every visible row's right-most column to match.
+  showJTs = !showJTs;
+  drawUpJTsHeader();
+  uint8_t shownRows = (n > DASHBOARD_ROWS) ? DASHBOARD_ROWS : n;
+  for (uint8_t i = 0; i < shownRows; i++) {
+    int y = TBL_Y + HEADER_ROW_H + 4 + i * ROW_H;
+    drawMinerRow(i, y);
+  }
 }
 
 // Paint the miner's name in purple to show it's being polled
@@ -517,7 +531,7 @@ void drawStaticUI() {
   tft.drawString("PWR",    COL_PWR,  TBL_Y + 3, 2);
   tft.drawString("TEMP",   COL_TEMP, TBL_Y + 3, 2);
   tft.drawString("DIFF",   COL_DIFF, TBL_Y + 3, 2);
-  tft.drawString("UP",     COL_UP,   TBL_Y + 3, 2);
+  drawUpJTsHeader();   // draws "UP" or "J/Ts" based on showJTs flag
   tft.drawFastHLine(TBL_X + 2, TBL_Y + HEADER_ROW_H, TBL_W - 4, COL_DARKGREY);
 
   tft.drawRoundRect(RIGHT_X, POOL_Y, RIGHT_W, POOL_H, 4, COL_BORDER);
@@ -619,6 +633,20 @@ void drawTotalRow() {
   }
 }
 
+// Redraws just the UP/J/Ts header cell. Called whenever showJTs toggles
+// or when drawing the static UI. Erases the cell first to prevent text overlap.
+void drawUpJTsHeader() {
+  // Cell extends from COL_UP to right edge of table.
+  int cellX = COL_UP - 2;
+  int cellY = TBL_Y + 1;
+  int cellW = (TBL_X + TBL_W) - cellX - 2;
+  int cellH = HEADER_ROW_H - 2;
+  tft.fillRect(cellX, cellY, cellW, cellH, COL_BG);
+
+  tft.setTextColor(COL_LABEL, COL_BG);
+  tft.drawString(showJTs ? "J/Ts" : "UP", COL_UP, TBL_Y + 3, 2);
+}
+
 void drawMinerRow(uint8_t i, int y) {
   tft.fillRect(TBL_X + 1, y, TBL_W - 2, ROW_H - 2, COL_BG);
   char buf[16];
@@ -661,7 +689,21 @@ void drawMinerRow(uint8_t i, int y) {
   tft.drawString(buf, COL_DIFF, y, 2);
 
   tft.setTextColor(COL_LABEL, COL_BG);
-  formatUptimeShort(runtime[i].uptime, buf, sizeof(buf));
+  if (showJTs) {
+    // J/Ts = watts per terahash per second. Hashrate is stored in GH/s.
+    // Convert: watts / (GH/s / 1000) = watts / TH/s
+    if (runtime[i].hashrate > 0 && runtime[i].power > 0) {
+      float ths = runtime[i].hashrate / 1000.0f;
+      float jts = (float) runtime[i].power / ths;
+      // Format: under 100 -> X.X, 100+ -> XXX (whole numbers only)
+      if (jts < 100.0f) snprintf(buf, sizeof(buf), "%.1f", jts);
+      else              snprintf(buf, sizeof(buf), "%.0f", jts);
+    } else {
+      snprintf(buf, sizeof(buf), "--");
+    }
+  } else {
+    formatUptimeShort(runtime[i].uptime, buf, sizeof(buf));
+  }
   tft.drawString(buf, COL_UP, y, 2);
 }
 
