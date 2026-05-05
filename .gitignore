@@ -9,6 +9,7 @@ build/
 
 # Exception: keep firmware binaries for the web installer
 !firmware/*.bin
+!docs/firmware/*.bin
 
 # Arduino IDE 2.x
 .vscode/
