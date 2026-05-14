@@ -442,18 +442,33 @@ bool pollAxeOS(uint8_t idx, const MinerEntry& e) {
   HTTPClient http;
   String url = String("http://") + e.ip + "/api/system/info";
   http.setTimeout(2500);
-  http.begin(url);
-  int code = http.GET();
 
+  if (!http.begin(url)) {
+    runtime[idx].online = false;
+    return false;
+  }
+
+  int code = http.GET();
   if (code != 200) {
     runtime[idx].online = false;
     http.end();
     return false;
   }
 
-  StaticJsonDocument<3072> doc;
-  DeserializationError err = deserializeJson(doc, http.getStream());
+  // 6KB buffer for parsed JSON tree. Bitaxe responses are ~1-2KB,
+  // NerdOctAxe/NerdQAxe variants can reach ~2KB. ArduinoJson needs ~2-3x
+  // raw size for internal tokens, so 6KB is comfortable headroom.
+  StaticJsonDocument<6144> doc;
+
+  // Read the body into a String first. HTTPClient::getString() handles
+  // HTTP chunked transfer encoding internally - which the newer NerdOctAxe
+  // firmware uses. Passing http.getStream() directly to deserializeJson
+  // would feed it the raw chunked stream (with hex chunk-size markers
+  // interleaved) causing InvalidInput errors.
+  String body = http.getString();
   http.end();
+
+  DeserializationError err = deserializeJson(doc, body);
   if (err) {
     runtime[idx].online = false;
     return false;
