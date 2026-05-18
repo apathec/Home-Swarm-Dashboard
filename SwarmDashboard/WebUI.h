@@ -125,7 +125,7 @@ private:
           + esc(m.ip) + "' placeholder='192.168.1.110'></label>";
 
     html += "<label>Type<br><select name='t' required>";
-    for (uint8_t t = 0; t <= 2; t++) {
+    for (uint8_t t = 0; t <= 3; t++) {
       html += "<option value='" + String(t) + "'";
       if (m.type == t) html += " selected";
       html += ">" + String(minerTypeName(t)) + "</option>";
@@ -133,7 +133,8 @@ private:
     html += "</select></label>";
 
     html += "<p class='muted'>Bitaxe / NerdAxe use AxeOS HTTP. "
-            "Avalon Nano 3s uses CGMiner TCP on port 4028.</p>";
+            "Avalon Nano 3s uses CGMiner TCP on port 4028. "
+            "Plebsource DC-series uses HTTP on port 80.</p>";
 
     html += "<div class='row'>";
     html += "<button class='btn primary' type='submit'>Save</button> ";
@@ -354,7 +355,7 @@ private:
       "td.k{color:#888;width:35%}"
       ".actions{text-align:right;white-space:nowrap}"
       ".tag{padding:2px 8px;border-radius:4px;font-size:.85em;background:#222}"
-      ".tag.t0{color:#ff9800}.tag.t1{color:#ff3df8}.tag.t2{color:#7fffd4}"
+      ".tag.t0{color:#ff9800}.tag.t1{color:#ff3df8}.tag.t2{color:#7fffd4}.tag.t3{color:#07e000}"
       ".btn{display:inline-block;padding:8px 14px;background:#222;color:#e6e6e6;text-decoration:none;border-radius:6px;border:1px solid #333;cursor:pointer;font-size:.95em;font-family:inherit}"
       ".btn:hover{background:#2a2a2a}"
       ".btn.primary{background:#04f3ff;color:#000;border-color:#04f3ff}"
